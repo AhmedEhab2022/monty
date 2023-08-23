@@ -24,7 +24,7 @@ void push(stack_t **stack, unsigned int line_number, int *n)
 		fprintf(stderr, "Stack overflow\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = n;
+	new_node->n = *n;
 	new_node->next = (*stack);
 	if (*stack != NULL)
 		(*stack)->prev = new_node;
