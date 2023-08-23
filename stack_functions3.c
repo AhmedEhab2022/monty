@@ -16,11 +16,15 @@ void mod(stack_t **stack, unsigned int line_number)
 	if (*stack == NULL || (*stack)->next == NULL)
 	{
 		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
+		cleanup();
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	if ((*stack)->n == 0)
 	{
 		fprintf(stderr, "L%d: division by zero\n", line_number);
+		cleanup();
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	temp = *stack;
@@ -43,15 +47,15 @@ void pchar(stack_t **stack, unsigned int line_number)
 	if (*stack == NULL)
 	{
 		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
-		fclose(global.file);
-		free(global.content);
+		cleanup();
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	if ((*stack)->n < 0 || (*stack)->n > 127)
 	{
 		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
-		fclose(global.file);
-		free(global.content);
+		cleanup();
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	printf("%c\n", (*stack)->n);
@@ -67,13 +71,13 @@ void pchar(stack_t **stack, unsigned int line_number)
  */
 void pstr(stack_t **stack, unsigned int line_number)
 {
-	(void)line_number;
 	stack_t *temp;
 
+	(void)line_number;
 	temp = *stack;
 	while (temp && (temp->n > 0 && temp->n <= 127))
 	{
-		printf("%c");
+		printf("%c", temp->n);
 		temp = temp->next;
 	}
 	printf("\n");
@@ -89,9 +93,9 @@ void pstr(stack_t **stack, unsigned int line_number)
  */
 void rotl(stack_t **stack, unsigned int line_number)
 {
-	(void)line_number;
 	stack_t *temp;
 
+	(void)line_number;
 	if (*stack && (*stack)->next)
 	{
 		temp = *stack;
@@ -116,9 +120,9 @@ void rotl(stack_t **stack, unsigned int line_number)
  */
 void rotr(stack_t **stack, unsigned int line_number)
 {
-	(void)line_number;
 	stack_t *temp, *last;
 
+	(void)line_number;
 	if (*stack && (*stack)->next)
 	{
 		temp = *stack;

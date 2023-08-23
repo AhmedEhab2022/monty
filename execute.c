@@ -13,7 +13,7 @@ int execute(char *content, stack_t **stack, unsigned int line_count, FILE *f)
 	instruction_t operations[] = {
 		{"push", push}, {"pall", pall}, {"pint", pint},
 		{"pop", pop}, {"swap", swap}, {"add", add},
-		{"nop", nop}, {"sub", sub}, {"div", div},
+		{"nop", nop}, {"sub", sub}, {"div", _div},
 		{"mul", mul}, {"mod", mod}, {"pchar", pchar},
 		{"pstr", pstr}, {"rotl", rotl}, {"rotr", rotr},
 		{NULL, NULL}
