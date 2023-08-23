@@ -2,10 +2,10 @@
 
 /**
 * execute - executes the opcode
-* @stack: head linked list - stack
-* @counter: line_counter
-* @file: poiner to monty file
 * @content: line content
+* @stack: head linked list - stack
+* @line_count: line_counter
+* @file: poiner to monty file
 * Return: 0 if success 1 ohterwise
 */
 int execute(char *content, stack_t **stack, unsigned int line_count, FILE *file)
@@ -18,17 +18,15 @@ int execute(char *content, stack_t **stack, unsigned int line_count, FILE *file)
 		{"swap", swap},
 		{NULL, NULL}
 	};
-	unsigned int i = 0;
+	int i = 0;
 	char *op;
 
 	op = strtok(content, " \n\t");
 
-	/* handling comments */
 	if (op && op[0] == '#')
 		return (0);
 
 	global.arg = strtok(NULL, " \n\t");
-	/* find matching operation in table */
 	while (operations[i].opcode && op)
 	{
 		if (strcmp(op, operations[i].opcode) == 0)
@@ -39,8 +37,6 @@ int execute(char *content, stack_t **stack, unsigned int line_count, FILE *file)
 
 		i++;
 	}
-	/* handle unknown operation */
-
 	if (op && operations[i].opcode == NULL)
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_count, op);

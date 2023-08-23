@@ -5,7 +5,6 @@
  *
  * @stack: pointer to the top of the stack_t
  * @line_number: the line of the instruction
- * @n: the intger value to add to stack
  *
  * Return: void
  */
@@ -18,8 +17,7 @@ void push(stack_t **stack, unsigned int line_number)
 	if (global.arg == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
-		fclose(global.file);
-		free(global.content);
+		cleanup();
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -28,8 +26,7 @@ void push(stack_t **stack, unsigned int line_number)
 	if (new_node == NULL)
 	{
 		fprintf(stderr, "Stack overflow\n");
-		fclose(global.file);
-		free(global.content);
+		cleanup();
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -57,6 +54,10 @@ void pall(stack_t **stack, unsigned int line_number)
 	(void)line_number;
 
 	temp = *stack;
+
+	if (temp == NULL)
+		return;
+
 	while (temp)
 	{
 		printf("%d\n", temp->n);
@@ -77,6 +78,8 @@ void pint(stack_t **stack, unsigned int line_number)
 	if (*stack == NULL)
 	{
 		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		cleanup();
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	printf("%d\n", (*stack)->n);
@@ -97,11 +100,13 @@ void pop(stack_t **stack, unsigned int line_number)
 	if (*stack == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop, stack empty\n", line_number);
+		cleanup();
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	temp = *stack;
-	*stack = (*stack)->next;
-	(*stack)->prev = NULL;
+	*stack = temp->next;
+	temp->prev = NULL;
 	free(temp);
 }
 

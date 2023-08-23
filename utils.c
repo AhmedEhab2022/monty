@@ -1,6 +1,17 @@
 #include "monty.h"
 
 /**
+ * cleanup - frees memory and closes file
+ *
+ * Return: void
+ */
+void cleanup()
+{
+    fclose(global.file);
+    free(global.content);
+}
+
+/**
 * free_stack - frees a doubly linked list
 * @head: head of the stack
 */

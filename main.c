@@ -5,7 +5,7 @@ global_t global = {NULL, NULL, NULL};
 * main - monty code interpreter
 * @argc: number of arguments
 * @argv: arguments
-* Return: 0 on success
+* Return: 0 if success
 */
 int main(int argc, char *argv[])
 {
@@ -38,11 +38,11 @@ int main(int argc, char *argv[])
 		global.content = content;
 		line_count++;
 
-		if(read_line > 0)
+		if (read_line > 0)
 		{
 			execute(content, &stack, line_count, file);
 		}
-	        free(content);
+		free(content);
 	}
 
 	free_stack(stack);
