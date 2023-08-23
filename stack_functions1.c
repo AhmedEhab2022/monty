@@ -9,26 +9,35 @@
  *
  * Return: void
  */
-void push(stack_t **stack, unsigned int line_number, int *n)
+void push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *new_node;
+	stack_t *new_node, *temp;
+	int n = atoi(global.arg);
 
-	if (n == NULL)
+	temp = *stack;
+	if (global.arg == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		fclose(global.file);
+		free(global.content);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
+
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL)
 	{
 		fprintf(stderr, "Stack overflow\n");
+		fclose(global.file);
+		free(global.content);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = *n;
-	new_node->next = (*stack);
-	if (*stack != NULL)
-		(*stack)->prev = new_node;
 
+	if (temp)
+		temp->prev = new_node;
+	new_node->n = n;
+	new_node->next = *stack;
 	new_node->prev = NULL;
 	*stack = new_node;
 }
@@ -45,6 +54,7 @@ void push(stack_t **stack, unsigned int line_number, int *n)
 void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp;
+	(void)line_number;
 
 	temp = *stack;
 	while (temp)
