@@ -5,10 +5,10 @@
  *
  * Return: void
  */
-void cleanup()
+void cleanup(void)
 {
-    fclose(global.file);
-    free(global.content);
+	fclose(global.file);
+	free(global.content);
 }
 
 /**
