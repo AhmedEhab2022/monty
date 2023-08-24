@@ -22,6 +22,13 @@ void push(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 	new_node = malloc(sizeof(stack_t));
+	if (new_node == NULL)
+	{
+		fprintf(stderr, "L%d: Stack overflow\n", line_number);
+		cleanup();
+		free_stack(*stack);
+		exit(EXIT_FAILURE);
+	}
 	new_node->n = n;
 	if (global.flag == 's')
 	{
