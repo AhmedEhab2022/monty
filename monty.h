@@ -43,6 +43,7 @@ typedef struct instruction_s
  * @arg: value
  * @file: pointer to monty file
  * @content: line content
+ * @flag: determine the behaviour of push function
  * Description: carries values through the program
  */
 typedef struct global_s
@@ -50,6 +51,7 @@ typedef struct global_s
 	char *arg;
 	FILE *file;
 	char *content;
+	char flag;
 }  global_t;
 
 extern global_t global;

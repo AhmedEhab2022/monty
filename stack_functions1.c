@@ -11,7 +11,7 @@
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_node, *temp;
-	int n = atoi(global.arg), i;
+	int n = atoi(global.arg);
 
 	temp = *stack;
 	if (global.arg == NULL)
@@ -21,30 +21,27 @@ void push(stack_t **stack, unsigned int line_number)
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
-	for (i = 0; global.arg[i]; ++i)
-	{
-		if (global.arg[i] < '0' || global.arg[i] > '9')
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
-			cleanup();
-			free_stack(*stack);
-			exit(EXIT_FAILURE);
-		}
-	}
 	new_node = malloc(sizeof(stack_t));
-	if (new_node == NULL)
-	{
-		fprintf(stderr, "Stack overflow\n");
-		cleanup();
-		free_stack(*stack);
-		exit(EXIT_FAILURE);
-	}
-	if (temp)
-		temp->prev = new_node;
 	new_node->n = n;
-	new_node->next = *stack;
-	new_node->prev = NULL;
-	*stack = new_node;
+	if (global.flag == 's')
+	{
+		if (temp)
+			temp->prev = new_node;
+		new_node->next = *stack;
+		new_node->prev = NULL;
+		*stack = new_node;
+	}
+	else if (global.flag == 'q')
+	{
+		while (temp && temp->next)
+			temp = temp->next;
+		if (temp != NULL)
+			temp->next = new_node;
+		else
+			*stack = new_node;
+		new_node->next = NULL;
+		new_node->prev = temp;
+	}
 }
 
 /**

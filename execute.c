@@ -16,6 +16,7 @@ int execute(char *content, stack_t **stack, unsigned int line_count, FILE *f)
 		{"nop", nop}, {"sub", sub}, {"div", _div},
 		{"mul", mul}, {"mod", mod}, {"pchar", pchar},
 		{"pstr", pstr}, {"rotl", rotl}, {"rotr", rotr},
+		{"stack", nop}, {"queue", nop},
 		{NULL, NULL}
 	};
 	int i = 0;
@@ -24,6 +25,11 @@ int execute(char *content, stack_t **stack, unsigned int line_count, FILE *f)
 	op = strtok(content, " \n\t");
 	if (op && op[0] == '#')
 		return (0);
+
+	if (strcmp(op, "queue") == 0)
+		global.flag = 'q';
+	else if (strcmp(op, "stack") == 0)
+		global.flag = 's';
 
 	global.arg = strtok(NULL, " \n\t");
 	while (operations[i].opcode && op)
